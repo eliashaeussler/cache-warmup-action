@@ -1,0 +1,23 @@
+{
+	"name": "@eliashaeussler/cache-warmup-action",
+	"description": "GitHub action to warm up caches of URLs located in XML sitemaps",
+	"version": "1.0.0",
+	"license": "GPL-3.0-or-later",
+	"repository": "https://github.com/eliashaeussler/cache-warmup-action.git",
+	"author": {
+		"name": "Elias Häußler",
+		"email": "elias@haeussler.dev",
+		"url": "https://haeussler.dev"
+	},
+	"homepage": "https://cache-warmup.dev/",
+	"devDependencies": {
+		"depcheck": "^1.4.7"
+	},
+	"scripts": {
+		"check-dependencies": "depcheck"
+	},
+	"dependencies": {
+		"@actions/core": "^1.10.1",
+		"@actions/github": "^6.0.0"
+	}
+}

@@ -1,0 +1,18 @@
+name: 'Cache Warmup'
+description: '🔥 Warm up caches of URLs located in XML sitemaps'
+author: 'Elias Häußler'
+branding:
+  color: 'red'
+  icon: 'trending-up'
+inputs:
+  version:
+    description: 'Version of the cache-warmup library to use, defaults to "latest".'
+    default: 'latest'
+    required: true
+  sitemaps:
+    description: 'URLs or local filenames of XML sitemaps to be warmed up.'
+  urls:
+    description: 'Additional URLs to be warmed up.'
+runs:
+  using: 'node20'
+  main: 'src/index.js'
