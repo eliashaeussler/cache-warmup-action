@@ -1,0 +1,61 @@
+name: Tests
+on:
+  push:
+    branches:
+      - main
+      - 'renovate/**'
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  tests:
+    name: Tests (${{ matrix.os }})
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: ["ubuntu-latest", "windows-latest", "macos-latest"]
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Test with sitemaps
+        uses: ./
+        with:
+          sitemaps: https://cache-warmup.dev/sitemap.xml
+
+      - name: Test with URLs
+        uses: ./
+        with:
+          urls: https://cache-warmup.dev/
+
+      - name: Test with limit
+        uses: ./
+        with:
+          sitemaps: https://cache-warmup.dev/sitemap.xml
+          limit: 10
+
+      - name: Test with config file
+        uses: ./
+        with:
+          config: tests/fixtures/cache-warmup.json
+          limit: 10
+
+      - name: Test with explicit stable version
+        uses: ./
+        env:
+          # renovate: datasource=github-releases depName=eliashaeussler/cache-warmup
+          CACHE_WARMUP_VERSION: '3.0.0'
+        with:
+          version: $CACHE_WARMUP_VERSION
+          sitemaps: https://cache-warmup.dev/sitemap.xml
+          limit: 10
+
+      - name: Test with explicit legacy version
+        uses: ./
+        with:
+          version: 2.6.0
+          sitemaps: https://cache-warmup.dev/sitemap.xml
+          limit: 10
