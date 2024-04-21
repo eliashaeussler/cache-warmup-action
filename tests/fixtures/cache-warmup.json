@@ -1,0 +1,7 @@
+{
+	"limit": 10,
+	"progress": true,
+    "sitemaps": [
+        "https://cache-warmup.dev/sitemap.xml"
+    ]
+}
