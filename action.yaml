@@ -32,25 +32,33 @@ runs:
       run: |
         ${GITHUB_ACTION_PATH}/bin/check_requirements.sh
 
-    - name: 'Download PHAR file'
-      id: 'download'
+    # @todo remove
+#    - name: 'Download PHAR file'
+#      id: 'download'
+#      shell: 'bash'
+#      run: |
+#        ${GITHUB_ACTION_PATH}/bin/download_phar.sh \
+#          "${{ inputs.version }}"
+
+    - name: 'Pull Docker image'
+      id: 'docker'
       shell: 'bash'
       run: |
-        ${GITHUB_ACTION_PATH}/bin/download_phar.sh \
+        ${GITHUB_ACTION_PATH}/bin/pull_image.sh \
           "${{ inputs.version }}"
 
     - name: 'Verify config file'
       shell: 'bash'
       run: |
         ${GITHUB_ACTION_PATH}/bin/verify_config.sh \
-          "${{ steps.download.outputs.pharVersion }}" \
+          "${{ steps.docker.outputs.imageVersion }}" \
           "${{ inputs.config }}"
 
     - name: 'Run cache warmup'
       shell: 'bash'
       run: |
         ${GITHUB_ACTION_PATH}/bin/cache_warmup.sh \
-          "${{ steps.download.outputs.pharFile }}" \
+          "${{ steps.docker.outputs.image }}" \
           "${{ inputs.sitemaps }}" \
           "${{ inputs.urls }}" \
           "${{ inputs.limit }}" \

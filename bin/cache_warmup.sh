@@ -1,7 +1,8 @@
 #!/usr/bin/env bash
+# shellcheck disable=SC2155
 set -e
 
-readonly pharFile="$1"
+readonly dockerImage="$1"
 readonly sitemaps=("${2//'\n'/ }")
 readonly urls=("${3//'\n'/ }")
 readonly limit="$4"
@@ -43,7 +44,8 @@ function _parse_config_options() {
 
 # Run cache warmup
 function _run() {
-    "${pharFile}" "${args[@]}"
+    local workingDirectory="$(pwd -P)"
+    docker run --rm -v "${workingDirectory}":"${workingDirectory}" -w "${workingDirectory}" "${dockerImage}" "${args[@]}"
 }
 
 _parse_sitemaps

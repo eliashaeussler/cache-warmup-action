@@ -2,6 +2,8 @@
 # shellcheck disable=SC2155
 set -e
 
+# @todo remove
+
 readonly version="$1"
 readonly pharFile="./cache-warmup.phar"
 readonly signatureFile="./cache-warmup.phar.asc"

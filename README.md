@@ -11,7 +11,7 @@ GitHub Action for [`eliashaeussler/cache-warmup`](https://github.com/eliashaeuss
 a library to warm up website caches of URLs located in XML sitemaps.
 Read more in the [official documentation](https://cache-warmup.dev/).
 
-## 🔥 Quickstart
+## 🔥 Usage
 
 Create a new workflow or add a new step to your existing workflow:
 
@@ -37,7 +37,7 @@ jobs:
             https://www.example.com/sitemap.xml
             https://www.example.com/de/sitemap.xml
           urls: |
-            https://www.example.com/a-very-anonymous-url
+            https://www.example.com/another-url
           limit: 250
           config: cache-warmup.json
 ```
