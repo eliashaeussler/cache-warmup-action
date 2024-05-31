@@ -56,16 +56,19 @@ function check_requirements() {
 
 # Download and verify PHAR file from GitHub release
 function download_phar_file() {
-    # Download PHAR
-    curl -sSL "${sourceUrl}" -o "${pharFile}"
+    # Download PHAR file
+    if ! curl -fsSL "${sourceUrl}" -o "${pharFile}" 2>/dev/null; then
+        error "Download failed" "Unable to download PHAR file from \"${sourceUrl}\"."
+    fi
+
+    # Make PHAR file executable
     chmod +x "${pharFile}"
 
-    # Download signature
-    curl -sSL "${signatureUrl}" -o "${signatureFile}"
-
-    # Verify PHAR file
-    gpg --keyserver keys.openpgp.org --recv-keys E73F20790A629A2CEF2E9AE57C1C5363490E851E 2>/dev/null
-    gpg --verify "${signatureFile}" "${pharFile}" 2>/dev/null
+    # Download signature file and verify PHAR file
+    if curl -fsSL "${signatureUrl}" -o "${signatureFile}" 2>/dev/null; then
+        gpg --keyserver keys.openpgp.org --recv-keys E73F20790A629A2CEF2E9AE57C1C5363490E851E 2>/dev/null
+        gpg --verify "${signatureFile}" "${pharFile}" 2>/dev/null
+    fi
 
     # Resolve library version from PHAR file
     if [ "${version}" == "latest" ]; then

@@ -19,7 +19,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Set up environment
+      - name: Set up stable environment
         uses: shivammathur/setup-php@v2
         with:
           php-version: 8.3
@@ -88,7 +88,7 @@ jobs:
           config: tests/fixtures/cache-warmup.json
           limit: 10
 
-      - name: Test with explicit stable version
+      - name: Test with stable version
         id: stable
         uses: ./
         env:
@@ -99,11 +99,42 @@ jobs:
           sitemaps: https://cache-warmup.dev/sitemap.xml
           limit: 10
 
-      - name: Test with explicit legacy version
+      - name: Test with legacy version
         id: legacy
         uses: ./
         with:
           version: 2.6.0
+          sitemaps: https://cache-warmup.dev/sitemap.xml
+          limit: 10
+
+      - name: Set up lowest environment
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: 8.1
+          coverage: none
+
+      - name: Test with lowest version
+        id: lowest
+        uses: ./
+        with:
+          version: 0.7.0
+          sitemaps: https://cache-warmup.dev/sitemap.xml
+          limit: 10
+
+      - name: Test with lowest signed version
+        id: lowest-signed
+        uses: ./
+        with:
+          version: 0.7.6
+          sitemaps: https://cache-warmup.dev/sitemap.xml
+          limit: 10
+
+      - name: Test with unsupported version
+        id: unsupported
+        continue-on-error: true
+        uses: ./
+        with:
+          version: 0.1.0
           sitemaps: https://cache-warmup.dev/sitemap.xml
           limit: 10
 
