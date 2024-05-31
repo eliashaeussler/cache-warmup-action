@@ -22,28 +22,33 @@ jobs:
           fetch-depth: 0
 
       - name: Test with sitemaps
+        id: sitemaps
         uses: ./
         with:
           sitemaps: https://cache-warmup.dev/sitemap.xml
 
       - name: Test with URLs
+        id: urls
         uses: ./
         with:
           urls: https://cache-warmup.dev/
 
       - name: Test with limit
+        id: limit
         uses: ./
         with:
           sitemaps: https://cache-warmup.dev/sitemap.xml
           limit: 10
 
       - name: Test with config file
+        id: config
         uses: ./
         with:
           config: tests/fixtures/cache-warmup.json
           limit: 10
 
       - name: Test with config file and legacy version
+        id: config-legacy
         continue-on-error: true
         uses: ./
         with:
@@ -52,6 +57,7 @@ jobs:
           limit: 10
 
       - name: Test with explicit stable version
+        id: stable
         uses: ./
         env:
           # renovate: datasource=github-releases depName=eliashaeussler/cache-warmup
@@ -62,8 +68,18 @@ jobs:
           limit: 10
 
       - name: Test with explicit legacy version
+        id: legacy
         uses: ./
         with:
           version: 2.6.0
           sitemaps: https://cache-warmup.dev/sitemap.xml
           limit: 10
+
+      - name: Test outputs
+        id: outputs
+        shell: 'bash'
+        run: |
+          if [ "${{ steps.legacy.outputs.version }}" != "2.6.0" ]; then
+            echo "::error title=Invalid output::Expected \"2.6.0\" as output \"version\", got \"${{ steps.legacy.outputs.version }}\"."
+            exit 1
+          fi
