@@ -7,7 +7,9 @@ readonly version="$1"
 readonly sitemaps=("${2//'\n'/ }")
 readonly urls=("${3//'\n'/ }")
 readonly limit="$4"
-readonly config="$5"
+readonly progress="$5"
+readonly verbosity="$6"
+readonly config="$7"
 
 # Downloaded files
 readonly pharFile="./cache-warmup.phar"
@@ -102,12 +104,22 @@ function run_cache_warmup() {
         fi
     done
 
-    # Parse additional config options
+    # Add limit option
     if [ -n "${limit}" ]; then
         args+=(--limit "${limit}")
     fi
 
-    # Add config file argument
+    # Add progress option
+    if [ -n "${progress}" ]; then
+        args+=(--progress)
+    fi
+
+    # Add verbosity option
+    if [ "${verbosity}" == "v" ] || [ "${verbosity}" == "vv" ] || [ "${verbosity}" == "vvv" ]; then
+        args+=(-"${verbosity}")
+    fi
+
+    # Add config option
     if [ -n "${config}" ]; then
         args+=(--config "${config}")
     fi

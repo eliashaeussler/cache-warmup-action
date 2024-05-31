@@ -44,6 +44,34 @@ jobs:
           sitemaps: https://cache-warmup.dev/sitemap.xml
           limit: 10
 
+      - name: Test with progress
+        id: progress
+        uses: ./
+        with:
+          sitemaps: https://cache-warmup.dev/sitemap.xml
+          progress: true
+
+      - name: Test with verbosity level=1
+        id: verbosity-1
+        uses: ./
+        with:
+          sitemaps: https://cache-warmup.dev/sitemap.xml
+          verbosity: v
+
+      - name: Test with verbosity level=2
+        id: verbosity-2
+        uses: ./
+        with:
+          sitemaps: https://cache-warmup.dev/sitemap.xml
+          verbosity: vv
+
+      - name: Test with verbosity level=3
+        id: verbosity-3
+        uses: ./
+        with:
+          sitemaps: https://cache-warmup.dev/sitemap.xml
+          verbosity: vvv
+
       - name: Test with config file
         id: config
         uses: ./
