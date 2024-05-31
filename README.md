@@ -54,6 +54,14 @@ The following inputs are currently available:
 | `limit`    | Limit the number of URLs to be processed                                                  | `0`      | –        |
 | `config`   | Path to an external configuration file (supported since v3 of the `cache-warmup` library) | –        | –        |
 
+## 💬 Outputs
+
+The following outputs are currently generated:
+
+| Name      | Description                                |
+|-----------|--------------------------------------------|
+| `version` | Used version of the `cache-warmup` library |
+
 ## ⭐ License
 
 This project is licensed under [GNU General Public License 3.0 (or later)](LICENSE.md).
