@@ -86,7 +86,7 @@ function verify_config_file() {
 function run_cache_warmup() {
     local sitemap
     local url
-    local args=("--no-interaction")
+    local args=("--no-interaction" "--ansi")
 
     # Parse configured sitemaps
     for sitemap in "${sitemaps[@]}"; do
