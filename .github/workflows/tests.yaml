@@ -43,6 +43,14 @@ jobs:
           config: tests/fixtures/cache-warmup.json
           limit: 10
 
+      - name: Test with config file and legacy version
+        continue-on-error: true
+        uses: ./
+        with:
+          version: 2.6.0
+          config: tests/fixtures/cache-warmup.json
+          limit: 10
+
       - name: Test with explicit stable version
         uses: ./
         env:
