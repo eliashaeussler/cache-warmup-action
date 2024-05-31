@@ -27,6 +27,12 @@ inputs:
 runs:
   using: 'composite'
   steps:
+    - name: 'Set up environment'
+      uses: 'shivammathur/setup-php@v2'
+      with:
+        php-version: '8.3'
+        coverage: 'none'
+
     - name: 'Check requirements'
       shell: 'bash'
       run: |
