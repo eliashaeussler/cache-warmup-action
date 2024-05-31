@@ -43,12 +43,12 @@ function log() {
 function check_requirements() {
     # Verify local PHP installation
     if ! which php >/dev/null; then
-        error 'PHP not installed' 'Unable to detected local PHP installation.'
+        error "PHP not installed" "Unable to detected local PHP installation."
     fi
 
     # Verify GPG installation
     if ! which gpg >/dev/null; then
-        error 'GPG not installed' 'Unable to detect local GPG installation.'
+        error "GPG not installed" "Unable to detect local GPG installation."
     fi
 }
 
@@ -77,15 +77,9 @@ function download_phar_file() {
 
 # Verify configured config file
 function verify_config_file() {
-    local majorVersion="$(echo "${pharVersion}" | xargs | awk -F. '{print $1}')"
-
     # Check if config file support is available
-    if [ -n "${config}" ]; then
-        if [ "${majorVersion}" -lt "3" ]; then
-            error 'Config file not supported' 'Support for config files has been added in v3 of the library.'
-        fi
-
-        log "Config" "Verified config file \"${config}\""
+    if [ -n "${config}" ] && ! "${pharFile}" --help | grep -q -- '--config'; then
+        error "Config file not supported" "Support for config files has been added in v3 of the library."
     fi
 }
 
