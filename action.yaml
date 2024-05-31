@@ -36,7 +36,7 @@ runs:
     - name: 'Run cache warmup'
       shell: 'bash'
       run: |
-        ${GITHUB_ACTION_PATH}/src/main.sh \
+        ${GITHUB_ACTION_PATH}/bin/main.sh \
           "${{ inputs.version }}" \
           "${{ inputs.sitemaps }}" \
           "${{ inputs.urls }}" \

@@ -32,6 +32,13 @@ function error() {
     exit 1
 }
 
+function log() {
+    local title="$1"
+    local message="$2"
+
+    printf "\033[32;1m✓ \033[0m\033[34;1m%s \033[0m\033[90;1m%s\033[0m\n" "${title}" "${message}"
+}
+
 # Check requirements
 function check_requirements() {
     # Verify local PHP installation
@@ -45,26 +52,27 @@ function check_requirements() {
     fi
 }
 
-# Download PHAR file from GitHub release
+# Download and verify PHAR file from GitHub release
 function download_phar_file() {
+    # Download PHAR
     curl -sSL "${sourceUrl}" -o "${pharFile}"
-    curl -sSL "${signatureUrl}" -o "${signatureFile}"
     chmod +x "${pharFile}"
-}
 
-# Verify PHAR file with GPG signature
-function verify_phar_file() {
-    gpg --keyserver keys.openpgp.org --recv-keys E73F20790A629A2CEF2E9AE57C1C5363490E851E
-    gpg --verify "${signatureFile}" "${pharFile}"
-}
+    # Download signature
+    curl -sSL "${signatureUrl}" -o "${signatureFile}"
 
-# Resolve library version from PHAR file
-function resolve_phar_version() {
+    # Verify PHAR file
+    gpg --keyserver keys.openpgp.org --recv-keys E73F20790A629A2CEF2E9AE57C1C5363490E851E 2>/dev/null
+    gpg --verify "${signatureFile}" "${pharFile}" 2>/dev/null
+
+    # Resolve library version from PHAR file
     if [ "${version}" == "latest" ]; then
         pharVersion="$("${pharFile}" --version | awk '{print $2}')"
     else
         pharVersion="${version}"
     fi
+
+    log "PHAR" "Downloaded version ${pharVersion}"
 }
 
 # Verify configured config file
@@ -72,8 +80,12 @@ function verify_config_file() {
     local majorVersion="$(echo "${pharVersion}" | xargs | awk -F. '{print $1}')"
 
     # Check if config file support is available
-    if [ -n "${config}" ] && [ "${majorVersion}" -lt 3 ]; then
-        error 'Config file not supported' 'Support for config files has been added in v3 of the library.'
+    if [ -n "${config}" ]; then
+        if [ "${majorVersion}" -lt "3" ]; then
+            error 'Config file not supported' 'Support for config files has been added in v3 of the library.'
+        fi
+
+        log "Config" "Verified config file \"${config}\""
     fi
 }
 
@@ -107,6 +119,7 @@ function run_cache_warmup() {
     fi
 
     # Run cache warmup
+    printf "\n"
     "${pharFile}" "${args[@]}"
 }
 
@@ -117,8 +130,6 @@ function export_output_variables() {
 
 check_requirements
 download_phar_file
-verify_phar_file
-resolve_phar_version
 verify_config_file
 run_cache_warmup
 export_output_variables
