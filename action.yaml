@@ -20,6 +20,12 @@ inputs:
   limit:
     description: 'Limit the number of URLs to be processed.'
     default: '0'
+  progress:
+    description: 'Show a progress bar during cache warmup.'
+    default: ''
+  verbosity:
+    description: 'Increase output verbosity (v, vv or vvv).'
+    default: ''
   config:
     description: 'Path to an external configuration file.'
     default: ''
@@ -41,4 +47,6 @@ runs:
           "${{ inputs.sitemaps }}" \
           "${{ inputs.urls }}" \
           "${{ inputs.limit }}" \
+          "${{ inputs.progress }}" \
+          "${{ inputs.verbosity }}" \
           "${{ inputs.config }}"

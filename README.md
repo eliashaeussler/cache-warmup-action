@@ -46,6 +46,8 @@ jobs:
           urls: |
             https://www.example.com/another-url
           limit: 250
+          progress: true
+          verbosity: vvv
           config: cache-warmup.json
 ```
 
@@ -53,13 +55,15 @@ jobs:
 
 The following inputs are currently available:
 
-| Name       | Description                                                                               | Default  | Required |
-|------------|-------------------------------------------------------------------------------------------|----------|----------|
-| `version`  | Version of the `cache-warmup` library to use                                              | `latest` | ✅        |
-| `sitemaps` | URLs or local filenames of XML sitemaps to be warmed up, separated by newline             | –        | –        |
-| `urls`     | Additional URLs to be warmed up, separated by newline                                     | –        | –        |
-| `limit`    | Limit the number of URLs to be processed                                                  | `0`      | –        |
-| `config`   | Path to an external configuration file (supported since v3 of the `cache-warmup` library) | –        | –        |
+| Name        | Description                                                                               | Default  | Required |
+|-------------|-------------------------------------------------------------------------------------------|----------|----------|
+| `version`   | Version of the `cache-warmup` library to use                                              | `latest` | ✅        |
+| `sitemaps`  | URLs or local filenames of XML sitemaps to be warmed up, separated by newline             | –        | –        |
+| `urls`      | Additional URLs to be warmed up, separated by newline                                     | –        | –        |
+| `limit`     | Limit the number of URLs to be processed                                                  | `0`      | –        |
+| `progress`  | Show a progress bar during cache warmup                                                   | ``       | –        |
+| `verbosity` | Increase output verbosity (`v`, `vv` or `vvv`)                                            | ``       | –        |
+| `config`    | Path to an external configuration file (supported since v3 of the `cache-warmup` library) | –        | –        |
 
 ## 💬 Outputs
 
