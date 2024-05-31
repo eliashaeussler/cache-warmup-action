@@ -33,30 +33,11 @@ runs:
         php-version: '8.3'
         coverage: 'none'
 
-    - name: 'Check requirements'
-      shell: 'bash'
-      run: |
-        ${GITHUB_ACTION_PATH}/bin/check_requirements.sh
-
-    - name: 'Download PHAR file'
-      id: 'download'
-      shell: 'bash'
-      run: |
-        ${GITHUB_ACTION_PATH}/bin/download_phar.sh \
-          "${{ inputs.version }}"
-
-    - name: 'Verify config file'
-      shell: 'bash'
-      run: |
-        ${GITHUB_ACTION_PATH}/bin/verify_config.sh \
-          "${{ steps.download.outputs.pharVersion }}" \
-          "${{ inputs.config }}"
-
     - name: 'Run cache warmup'
       shell: 'bash'
       run: |
-        ${GITHUB_ACTION_PATH}/bin/cache_warmup.sh \
-          "${{ steps.download.outputs.pharFile }}" \
+        ${GITHUB_ACTION_PATH}/src/main.sh \
+          "${{ inputs.version }}" \
           "${{ inputs.sitemaps }}" \
           "${{ inputs.urls }}" \
           "${{ inputs.limit }}" \
