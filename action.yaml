@@ -4,7 +4,7 @@ author: 'Elias Häußler'
 
 branding:
   color: 'red'
-  icon: 'trending-up'
+  icon: 'zap'
 
 inputs:
   version:
