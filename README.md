@@ -4,6 +4,7 @@
 
 [![CGL](https://img.shields.io/github/actions/workflow/status/eliashaeussler/cache-warmup-action/cgl.yaml?label=cgl&logo=github)](https://github.com/eliashaeussler/cache-warmup-action/actions/workflows/cgl.yaml)
 [![Tests](https://img.shields.io/github/actions/workflow/status/eliashaeussler/cache-warmup-action/tests.yaml?label=tests&logo=github)](https://github.com/eliashaeussler/cache-warmup-action/actions/workflows/tests.yaml)
+[![Latest version](https://img.shields.io/github/v/tag/eliashaeussler/cache-warmup-action?sort=semver&filter=v*&logo=github&label=latest)](https://github.com/eliashaeussler/cache-warmup-action/releases/latest)
 
 </div>
 
