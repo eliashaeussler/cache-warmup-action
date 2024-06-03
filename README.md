@@ -26,8 +26,8 @@ Create a new workflow or add a new step to your existing workflow:
 name: Cache Warmup
 on:
   push:
-    branches:
-      - main
+    tags:
+      - '*'
 
 jobs:
   cache-warmup:
