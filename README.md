@@ -14,7 +14,8 @@ Read more in the [official documentation](https://cache-warmup.dev/).
 ## 🔥 Usage
 
 > [!IMPORTANT]
-> The action requires at least version **0.7.0** of the `cache-warmup` library.
+> The action requires at least version **0.7.0** of the
+> `eliashaeussler/cache-warmup` library.
 
 Create a new workflow or add a new step to your existing workflow:
 
@@ -58,23 +59,23 @@ jobs:
 
 The following inputs are currently available:
 
-| Name        | Description                                                                               | Default  | Required |
-|-------------|-------------------------------------------------------------------------------------------|----------|----------|
-| `version`   | Version of the `cache-warmup` library to use (must be at least `0.7.0`)                   | `latest` | ✅        |
-| `sitemaps`  | URLs or local filenames of XML sitemaps to be warmed up, separated by newline             | –        | –        |
-| `urls`      | Additional URLs to be warmed up, separated by newline                                     | –        | –        |
-| `limit`     | Limit the number of URLs to be processed                                                  | `0`      | –        |
-| `progress`  | Show a progress bar during cache warmup                                                   | –        | –        |
-| `verbosity` | Increase output verbosity (`v`, `vv` or `vvv`)                                            | –        | –        |
-| `config`    | Path to an external configuration file (supported since v3 of the `cache-warmup` library) | –        | –        |
+| Name        | Description                                                                                              | Default  | Required |
+|-------------|----------------------------------------------------------------------------------------------------------|----------|----------|
+| `version`   | Version of the `eliashaeussler/cache-warmup` library to use (must be at least `0.7.0`)                   | `latest` | ✅        |
+| `sitemaps`  | URLs or local filenames of XML sitemaps to be warmed up, separated by newline                            | –        | –        |
+| `urls`      | Additional URLs to be warmed up, separated by newline                                                    | –        | –        |
+| `limit`     | Limit the number of URLs to be processed                                                                 | `0`      | –        |
+| `progress`  | Show a progress bar during cache warmup                                                                  | –        | –        |
+| `verbosity` | Increase output verbosity (`v`, `vv` or `vvv`)                                                           | –        | –        |
+| `config`    | Path to an external configuration file (supported since v3 of the `eliashaeussler/cache-warmup` library) | –        | –        |
 
 ## 💬 Outputs
 
 The following outputs are currently generated:
 
-| Name      | Description                                |
-|-----------|--------------------------------------------|
-| `version` | Used version of the `cache-warmup` library |
+| Name      | Description                                               |
+|-----------|-----------------------------------------------------------|
+| `version` | Used version of the `eliashaeussler/cache-warmup` library |
 
 ## ⭐ License
 
