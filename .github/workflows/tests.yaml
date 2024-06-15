@@ -25,61 +25,61 @@ jobs:
           php-version: 8.3
           coverage: none
 
-      - name: Test with sitemaps
+      - name: 'Test: Sitemaps'
         id: sitemaps
         uses: ./
         with:
           sitemaps: https://cache-warmup.dev/sitemap.xml
 
-      - name: Test with URLs
+      - name: 'Test: URLs'
         id: urls
         uses: ./
         with:
           urls: https://cache-warmup.dev/
 
-      - name: Test with limit
+      - name: 'Test: Limit'
         id: limit
         uses: ./
         with:
           sitemaps: https://cache-warmup.dev/sitemap.xml
           limit: 10
 
-      - name: Test with progress
+      - name: 'Test: Progress'
         id: progress
         uses: ./
         with:
           sitemaps: https://cache-warmup.dev/sitemap.xml
           progress: true
 
-      - name: Test with verbosity level=1
+      - name: 'Test: Verbosity level=1'
         id: verbosity-1
         uses: ./
         with:
           sitemaps: https://cache-warmup.dev/sitemap.xml
           verbosity: v
 
-      - name: Test with verbosity level=2
+      - name: 'Test: Verbosity level=2'
         id: verbosity-2
         uses: ./
         with:
           sitemaps: https://cache-warmup.dev/sitemap.xml
           verbosity: vv
 
-      - name: Test with verbosity level=3
+      - name: 'Test: Verbosity level=3'
         id: verbosity-3
         uses: ./
         with:
           sitemaps: https://cache-warmup.dev/sitemap.xml
           verbosity: vvv
 
-      - name: Test with config file
+      - name: 'Test: Config file'
         id: config
         uses: ./
         with:
           config: tests/fixtures/cache-warmup.json
           limit: 10
 
-      - name: Test with config file and legacy version
+      - name: 'Test: Config file and legacy version'
         id: config-legacy
         continue-on-error: true
         uses: ./
@@ -87,8 +87,15 @@ jobs:
           version: 1.3.1
           config: tests/fixtures/cache-warmup.json
           limit: 10
+      - name: 'Verify: Config file and legacy version'
+        shell: bash
+        run: |
+          if [ "${{ steps.config-legacy.outcome }}" != "failure" ]; then
+            echo "::error title=Test with config file and legacy version: Invalid outcome::Expected \"failure\", got \"${{ steps.config-legacy.outcome }}\"."
+            exit 1
+          fi
 
-      - name: Test with stable version
+      - name: 'Test: Stable version'
         id: stable
         uses: ./
         env:
@@ -105,15 +112,22 @@ jobs:
           php-version: 8.1
           coverage: none
 
-      - name: Test with legacy version
+      - name: 'Test: Legacy version'
         id: legacy
         uses: ./
         with:
           version: 1.3.1
           sitemaps: https://cache-warmup.dev/sitemap.xml
           limit: 10
+      - name: 'Verify: Legacy version'
+        shell: bash
+        run: |
+          if [ "${{ steps.legacy.outputs.version }}" != "1.3.1" ]; then
+            echo "::error title=Test with legacy version: Invalid output::Expected \"1.3.1\" as output \"version\", got \"${{ steps.legacy.outputs.version }}\"."
+            exit 1
+          fi
 
-      - name: Test with lowest version
+      - name: 'Test: Lowest version'
         id: lowest
         uses: ./
         with:
@@ -121,7 +135,7 @@ jobs:
           sitemaps: https://cache-warmup.dev/sitemap.xml
           limit: 10
 
-      - name: Test with lowest signed version
+      - name: 'Test: Lowest signed version'
         id: lowest-signed
         uses: ./
         with:
@@ -129,7 +143,7 @@ jobs:
           sitemaps: https://cache-warmup.dev/sitemap.xml
           limit: 10
 
-      - name: Test with unsupported version
+      - name: 'Test: Unsupported version'
         id: unsupported
         continue-on-error: true
         uses: ./
@@ -137,12 +151,10 @@ jobs:
           version: 0.1.0
           sitemaps: https://cache-warmup.dev/sitemap.xml
           limit: 10
-
-      - name: Test outputs
-        id: outputs
-        shell: 'bash'
+      - name: 'Verify: Unsupported version'
+        shell: bash
         run: |
-          if [ "${{ steps.legacy.outputs.version }}" != "1.3.1" ]; then
-            echo "::error title=Invalid output::Expected \"1.3.1\" as output \"version\", got \"${{ steps.legacy.outputs.version }}\"."
+          if [ "${{ steps.unsupported.outcome }}" != "failure" ]; then
+            echo "::error title=Test with unsupported version: Invalid outcome::Expected \"failure\", got \"${{ steps.unsupported.outcome }}\"."
             exit 1
           fi
