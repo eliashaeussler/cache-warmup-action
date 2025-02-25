@@ -102,7 +102,7 @@ jobs:
         uses: ./
         env:
           # renovate: datasource=github-releases depName=eliashaeussler/cache-warmup
-          CACHE_WARMUP_VERSION: '4.0.2'
+          CACHE_WARMUP_VERSION: '4.0.3'
         with:
           version: $CACHE_WARMUP_VERSION
           sitemaps: https://cache-warmup.dev/sitemap.xml
