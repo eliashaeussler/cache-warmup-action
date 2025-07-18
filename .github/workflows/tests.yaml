@@ -3,13 +3,22 @@ on:
   push:
     branches:
       - '**'
+  pull_request:
+    branches:
+      - main
   schedule:
     - cron: '12 3 * * *'
 
 jobs:
+  prepare:
+    name: Prepare workflow
+    uses: eliashaeussler/.github/.github/workflows/pull-request.yaml@main
+
   tests:
     name: Tests (${{ matrix.os }})
     runs-on: ${{ matrix.os }}-latest
+    needs: prepare
+    if: needs.prepare.outputs.continue == 'true'
     strategy:
       fail-fast: false
       matrix:
