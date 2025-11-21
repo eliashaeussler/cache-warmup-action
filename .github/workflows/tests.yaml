@@ -24,7 +24,7 @@ jobs:
       matrix:
         os: ["Ubuntu", "Windows", "macOS"]
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
 
       - name: Set up stable environment
         uses: shivammathur/setup-php@v2
