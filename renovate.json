@@ -3,20 +3,5 @@
 	"extends": [
 		"local>eliashaeussler/renovate-config",
 		"customManagers:githubActionsVersions"
-	],
-	"packageRules": [
-		{
-			"enabled": false,
-			"matchCurrentVersion": "8.1",
-			"matchDatasources": [
-				"github-tags"
-			],
-			"matchDepNames": [
-				"php"
-			],
-			"matchFileNames": [
-				".github/workflows/tests.yaml"
-			]
-		}
 	]
 }
