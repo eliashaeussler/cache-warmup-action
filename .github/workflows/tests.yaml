@@ -12,7 +12,7 @@ on:
 jobs:
   prepare:
     name: Prepare workflow
-    uses: eliashaeussler/.github/.github/workflows/pull-request.yaml@main
+    uses: eliashaeussler/.github/.github/workflows/pull-request.yaml@76514ec3b1ca3ae6de8d56490ddcfe7f05139590 # main
 
   tests:
     name: Tests (${{ matrix.os }})
@@ -24,10 +24,10 @@ jobs:
       matrix:
         os: ["Ubuntu", "Windows", "macOS"]
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
 
       - name: Set up stable environment
-        uses: shivammathur/setup-php@v2
+        uses: shivammathur/setup-php@7c071dfe9dc99bdf297fa79cb49ea005b9fcadbc # v2
         with:
           php-version: 8.5
           coverage: none
@@ -114,7 +114,7 @@ jobs:
           limit: 10
 
       - name: Set up legacy environment
-        uses: shivammathur/setup-php@v2
+        uses: shivammathur/setup-php@7c071dfe9dc99bdf297fa79cb49ea005b9fcadbc # v2
         with:
           php-version: 8.1 # renovate-ignore
           coverage: none
