@@ -1,0 +1,52 @@
+{
+	"name": "eliashaeussler/cache-warmup-action",
+	"description": "GitHub Action to warm up caches of URLs located in XML sitemaps",
+	"license": "GPL-3.0-or-later",
+	"authors": [
+		{
+			"name": "Elias Häußler",
+			"email": "elias@haeussler.dev",
+			"homepage": "https://haeussler.dev",
+			"role": "Maintainer"
+		}
+	],
+	"require-dev": {
+		"armin/editorconfig-cli": "^2.2",
+		"ergebnis/composer-normalize": "^2.52",
+		"symfony/yaml": "^8.1"
+	},
+	"config": {
+		"allow-plugins": {
+			"ergebnis/composer-normalize": true
+		},
+		"sort-packages": true
+	},
+	"scripts": {
+		"check": [
+			"@check:style"
+		],
+		"check:style": [
+			"@check:style:actions",
+			"@check:style:composer",
+			"@check:style:editorconfig",
+			"@check:style:shell",
+			"@check:style:yaml"
+		],
+		"check:style:actions": "docker run --rm -v $(pwd):/repo --workdir /repo rhysd/actionlint:latest -color -verbose",
+		"check:style:composer": "@fix:composer --dry-run",
+		"check:style:editorconfig": "ec",
+		"check:style:shell": "find bin -name '*.sh' -print0 | xargs -0 -I{} shellcheck {}",
+		"check:style:yaml": "yaml-lint .",
+		"ci": [
+			"@composer validate",
+			"@composer audit",
+			"@check"
+		],
+		"fix": [
+			"@fix:composer",
+			"@fix:editorconfig"
+		],
+		"fix:composer": "@composer normalize",
+		"fix:editorconfig": "@check:style:editorconfig --fix"
+	}
+}

@@ -3,13 +3,13 @@
 set -e
 
 # Action inputs
-readonly version="$1"
-readonly sitemaps=("${2//'\n'/ }")
-readonly urls=("${3//'\n'/ }")
-readonly limit="$4"
-readonly progress="$5"
-readonly verbosity="$6"
-readonly config="$7"
+readonly version="$INPUT_VERSION"
+readonly sitemaps=("${INPUT_SITEMAPS//'\n'/ }")
+readonly urls=("${INPUT_URLS//'\n'/ }")
+readonly limit="$INPUT_LIMIT"
+readonly progress="$INPUT_PROGRESS"
+readonly verbosity="$INPUT_VERBOSITY"
+readonly config="$INPUT_CONFIG"
 
 # Downloaded files
 readonly pharFile="./cache-warmup.phar"
@@ -66,7 +66,9 @@ function download_phar_file() {
 
     # Download signature file and verify PHAR file
     if curl -fsSL "${signatureUrl}" -o "${signatureFile}" 2>/dev/null; then
-        gpg --keyserver keys.openpgp.org --recv-keys E73F20790A629A2CEF2E9AE57C1C5363490E851E 2>/dev/null
+        curl -sS https://keys.openpgp.org/vks/v1/by-fingerprint/E73F20790A629A2CEF2E9AE57C1C5363490E851E -o /tmp/key.asc
+        gpg --import /tmp/key.asc >/dev/null 2>&1
+        rm /tmp/key.asc
         gpg --verify "${signatureFile}" "${pharFile}" 2>/dev/null
     fi
 
