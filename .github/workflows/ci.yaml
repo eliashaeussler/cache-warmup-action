@@ -1,4 +1,5 @@
-name: Tests
+name: CI
+
 on:
   push:
     branches:
@@ -9,28 +10,50 @@ on:
   schedule:
     - cron: '12 3 * * *'
 
+permissions:
+  contents: read
+
 jobs:
   prepare:
-    name: Prepare workflow
-    uses: eliashaeussler/.github/.github/workflows/pull-request.yaml@d5e6edeb05f9d931a17ab0618ae631658cbf43ec # main
+    name: 'Prepare workflow'
+    uses: eliashaeussler/gha/.github/workflows/preparation.yaml@25277ecb47b0e804f4cc464509789a0183cb78fc # 0.7.3
+
+  repo-checks:
+    name: 'Checks'
+
+    needs: [prepare]
+    if: ${{ needs.prepare.outputs.continue == 'true' }}
+
+    permissions:
+      contents: read
+      security-events: write
+
+    uses: eliashaeussler/gha/.github/workflows/checks.yaml@25277ecb47b0e804f4cc464509789a0183cb78fc # 0.7.3
 
   tests:
-    name: Tests (${{ matrix.os }})
+    name: 'Tests (${{ matrix.os }})'
     runs-on: ${{ matrix.os }}-latest
-    needs: prepare
-    if: needs.prepare.outputs.continue == 'true'
+
+    needs: [prepare]
+    if: ${{ needs.prepare.outputs.continue == 'true' }}
+
     strategy:
       fail-fast: false
       matrix:
         os: ["Ubuntu", "Windows", "macOS"]
-    steps:
-      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7
 
-      - name: Set up stable environment
-        uses: shivammathur/setup-php@f3e473d116dcccaddc5834248c87452386958240 # v2
+    permissions:
+      contents: read
+
+    steps:
+      - name: 'Checkout'
+        uses: eliashaeussler/gha/.github/actions/checkout@25277ecb47b0e804f4cc464509789a0183cb78fc # 0.7.3
         with:
-          php-version: 8.5
-          coverage: none
+          allowed-endpoints: |
+            cache-warmup.dev:443
+
+      - name: 'Set up stable environment'
+        uses: eliashaeussler/gha/.github/actions/setup-php@25277ecb47b0e804f4cc464509789a0183cb78fc # 0.7.3
 
       - name: 'Test: Sitemaps'
         id: sitemaps
@@ -94,11 +117,14 @@ jobs:
           version: 1.3.1
           config: tests/fixtures/cache-warmup.json
           limit: 10
+
       - name: 'Verify: Config file and legacy version'
         shell: bash
+        env:
+          TEST_CONFIG_LEGACY_OUTCOME: ${{ steps.config-legacy.outcome }}
         run: |
-          if [ "${{ steps.config-legacy.outcome }}" != "failure" ]; then
-            echo "::error title=Test with config file and legacy version: Invalid outcome::Expected \"failure\", got \"${{ steps.config-legacy.outcome }}\"."
+          if [ "$TEST_CONFIG_LEGACY_OUTCOME" != "failure" ]; then
+            echo "::error title=Test with config file and legacy version: Invalid outcome::Expected \"failure\", got \"${TEST_CONFIG_LEGACY_OUTCOME}\"."
             exit 1
           fi
 
@@ -109,15 +135,14 @@ jobs:
           # renovate: datasource=github-releases depName=eliashaeussler/cache-warmup
           CACHE_WARMUP_VERSION: '5.0.6'
         with:
-          version: $CACHE_WARMUP_VERSION
+          version: ${{ env.CACHE_WARMUP_VERSION }}
           sitemaps: https://cache-warmup.dev/sitemap.xml
           limit: 10
 
-      - name: Set up legacy environment
-        uses: shivammathur/setup-php@f3e473d116dcccaddc5834248c87452386958240 # v2
+      - name: 'Set up legacy environment'
+        uses: eliashaeussler/gha/.github/actions/setup-php@25277ecb47b0e804f4cc464509789a0183cb78fc # 0.7.3
         with:
           php-version: 8.1 # renovate-ignore
-          coverage: none
 
       - name: 'Test: Legacy version'
         id: legacy
@@ -126,11 +151,14 @@ jobs:
           version: 1.3.1
           sitemaps: https://cache-warmup.dev/sitemap.xml
           limit: 10
+
       - name: 'Verify: Legacy version'
         shell: bash
+        env:
+          TEST_LEGACY_VERSION_OUTPUT: ${{ steps.legacy.outputs.version }}
         run: |
-          if [ "${{ steps.legacy.outputs.version }}" != "1.3.1" ]; then
-            echo "::error title=Test with legacy version: Invalid output::Expected \"1.3.1\" as output \"version\", got \"${{ steps.legacy.outputs.version }}\"."
+          if [ "$TEST_LEGACY_VERSION_OUTPUT" != "1.3.1" ]; then
+            echo "::error title=Test with legacy version: Invalid output::Expected \"1.3.1\" as output \"version\", got \"${TEST_LEGACY_VERSION_OUTPUT}\"."
             exit 1
           fi
 
@@ -158,10 +186,13 @@ jobs:
           version: 0.1.0
           sitemaps: https://cache-warmup.dev/sitemap.xml
           limit: 10
+
       - name: 'Verify: Unsupported version'
         shell: bash
+        env:
+          TEST_UNSUPPORTED_OUTCOME: ${{ steps.unsupported.outcome }}
         run: |
-          if [ "${{ steps.unsupported.outcome }}" != "failure" ]; then
-            echo "::error title=Test with unsupported version: Invalid outcome::Expected \"failure\", got \"${{ steps.unsupported.outcome }}\"."
+          if [ "$TEST_UNSUPPORTED_OUTCOME" != "failure" ]; then
+            echo "::error title=Test with unsupported version: Invalid outcome::Expected \"failure\", got \"${TEST_UNSUPPORTED_OUTCOME}\"."
             exit 1
           fi
