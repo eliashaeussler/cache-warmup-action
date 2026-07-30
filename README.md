@@ -41,7 +41,7 @@ jobs:
           coverage: none
 
       - name: Run cache warmup
-        uses: eliashaeussler/cache-warmup-action@a0c1504d177d494a44681009bc6838df654d4b98 # 1.0.0
+        uses: eliashaeussler/cache-warmup-action@b2f60a92f2d12eadd36d6387d4a8131b69ef9ed9 # 2.0.0
         with:
           version: latest
           sitemaps: |
