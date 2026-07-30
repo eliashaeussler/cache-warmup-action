@@ -3,5 +3,10 @@
 	"extends": [
 		"local>eliashaeussler/renovate-config",
 		"customManagers:githubActionsVersions"
-	]
+	],
+	"github-actions": {
+		"managerFilePatterns": [
+			"README.md"
+		]
+	}
 }
