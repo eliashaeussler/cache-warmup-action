@@ -38,7 +38,7 @@ jobs:
       - name: Set up environment
         uses: shivammathur/setup-php@f3e473d116dcccaddc5834248c87452386958240 # 2.37.2
         with:
-          php-version: 8.3
+          php-version: 8.5
           coverage: none
 
       - name: Run cache warmup
