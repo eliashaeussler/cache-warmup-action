@@ -133,7 +133,7 @@ jobs:
         uses: ./
         env:
           # renovate: datasource=github-releases depName=eliashaeussler/cache-warmup
-          CACHE_WARMUP_VERSION: '5.0.6'
+          CACHE_WARMUP_VERSION: '5.0.8'
         with:
           version: ${{ env.CACHE_WARMUP_VERSION }}
           sitemaps: https://cache-warmup.dev/sitemap.xml
