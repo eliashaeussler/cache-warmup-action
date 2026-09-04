@@ -57,54 +57,54 @@ jobs:
 
       - name: 'Test: Sitemaps'
         id: sitemaps
-        uses: ./
+        uses: $/
         with:
           sitemaps: https://cache-warmup.dev/sitemap.xml
 
       - name: 'Test: URLs'
         id: urls
-        uses: ./
+        uses: $/
         with:
           urls: https://cache-warmup.dev/
 
       - name: 'Test: Limit'
         id: limit
-        uses: ./
+        uses: $/
         with:
           sitemaps: https://cache-warmup.dev/sitemap.xml
           limit: 10
 
       - name: 'Test: Progress'
         id: progress
-        uses: ./
+        uses: $/
         with:
           sitemaps: https://cache-warmup.dev/sitemap.xml
           progress: true
 
       - name: 'Test: Verbosity level=1'
         id: verbosity-1
-        uses: ./
+        uses: $/
         with:
           sitemaps: https://cache-warmup.dev/sitemap.xml
           verbosity: v
 
       - name: 'Test: Verbosity level=2'
         id: verbosity-2
-        uses: ./
+        uses: $/
         with:
           sitemaps: https://cache-warmup.dev/sitemap.xml
           verbosity: vv
 
       - name: 'Test: Verbosity level=3'
         id: verbosity-3
-        uses: ./
+        uses: $/
         with:
           sitemaps: https://cache-warmup.dev/sitemap.xml
           verbosity: vvv
 
       - name: 'Test: Config file'
         id: config
-        uses: ./
+        uses: $/
         with:
           config: tests/fixtures/cache-warmup.json
           limit: 10
@@ -112,7 +112,7 @@ jobs:
       - name: 'Test: Config file and legacy version'
         id: config-legacy
         continue-on-error: true
-        uses: ./
+        uses: $/
         with:
           version: 1.3.1
           config: tests/fixtures/cache-warmup.json
@@ -130,7 +130,7 @@ jobs:
 
       - name: 'Test: Stable version'
         id: stable
-        uses: ./
+        uses: $/
         env:
           # renovate: datasource=github-releases depName=eliashaeussler/cache-warmup
           CACHE_WARMUP_VERSION: '5.0.8'
@@ -146,7 +146,7 @@ jobs:
 
       - name: 'Test: Legacy version'
         id: legacy
-        uses: ./
+        uses: $/
         with:
           version: 1.3.1
           sitemaps: https://cache-warmup.dev/sitemap.xml
@@ -164,7 +164,7 @@ jobs:
 
       - name: 'Test: Lowest version'
         id: lowest
-        uses: ./
+        uses: $/
         with:
           version: 0.7.0
           sitemaps: https://cache-warmup.dev/sitemap.xml
@@ -172,7 +172,7 @@ jobs:
 
       - name: 'Test: Lowest signed version'
         id: lowest-signed
-        uses: ./
+        uses: $/
         with:
           version: 0.7.6
           sitemaps: https://cache-warmup.dev/sitemap.xml
@@ -181,7 +181,7 @@ jobs:
       - name: 'Test: Unsupported version'
         id: unsupported
         continue-on-error: true
-        uses: ./
+        uses: $/
         with:
           version: 0.1.0
           sitemaps: https://cache-warmup.dev/sitemap.xml

@@ -1,0 +1,5 @@
+paths:
+  .github/workflows/ci.yaml:
+    ignore:
+      # @todo Can be removed once https://github.com/rhysd/actionlint/issues/711 is resolved
+      - 'specifying action "\$/" in invalid format because ref is missing'
