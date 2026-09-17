@@ -16,7 +16,7 @@ permissions:
 jobs:
   prepare:
     name: 'Prepare workflow'
-    uses: eliashaeussler/gha/.github/workflows/preparation.yaml@8c4f4729925a8ec534dcb4647c154bab6e7594e4 # 1.1.9
+    uses: eliashaeussler/gha/.github/workflows/preparation.yaml@d2e7ebdd6859ae0ad7e705b84a467b9e66d5b857 # 1.1.11
 
   repo-checks:
     name: 'Checks'
@@ -28,7 +28,7 @@ jobs:
       contents: read
       security-events: write
 
-    uses: eliashaeussler/gha/.github/workflows/checks.yaml@8c4f4729925a8ec534dcb4647c154bab6e7594e4 # 1.1.9
+    uses: eliashaeussler/gha/.github/workflows/checks.yaml@d2e7ebdd6859ae0ad7e705b84a467b9e66d5b857 # 1.1.11
 
   tests:
     name: 'Tests (${{ matrix.os }})'
@@ -47,13 +47,13 @@ jobs:
 
     steps:
       - name: 'Checkout'
-        uses: eliashaeussler/gha/.github/actions/checkout@8c4f4729925a8ec534dcb4647c154bab6e7594e4 # 1.1.9
+        uses: eliashaeussler/gha/.github/actions/checkout@d2e7ebdd6859ae0ad7e705b84a467b9e66d5b857 # 1.1.11
         with:
           allowed-endpoints: |
             cache-warmup.dev:443
 
       - name: 'Set up stable environment'
-        uses: eliashaeussler/gha/.github/actions/setup-php@8c4f4729925a8ec534dcb4647c154bab6e7594e4 # 1.1.9
+        uses: eliashaeussler/gha/.github/actions/setup-php@d2e7ebdd6859ae0ad7e705b84a467b9e66d5b857 # 1.1.11
 
       - name: 'Test: Sitemaps'
         id: sitemaps
@@ -140,7 +140,7 @@ jobs:
           limit: 10
 
       - name: 'Set up legacy environment'
-        uses: eliashaeussler/gha/.github/actions/setup-php@8c4f4729925a8ec534dcb4647c154bab6e7594e4 # 1.1.9
+        uses: eliashaeussler/gha/.github/actions/setup-php@d2e7ebdd6859ae0ad7e705b84a467b9e66d5b857 # 1.1.11
         with:
           php-version: 8.1 # renovate-ignore
 
